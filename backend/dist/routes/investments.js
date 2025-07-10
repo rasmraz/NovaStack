@@ -25,7 +25,7 @@ router.get('/', auth_1.authenticate, async (req, res, next) => {
 });
 router.post('/invest', auth_1.authenticate, async (req, res, next) => {
     try {
-        const { startupId, amount, terms } = req.body;
+        const { startupId, amount } = req.body;
         if (!startupId || !amount) {
             throw (0, errorHandler_1.createError)('Startup ID and amount are required', 400);
         }

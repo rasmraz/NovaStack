@@ -23,7 +23,7 @@ router.get('/rooms', auth_1.authenticate, async (req, res, next) => {
 });
 router.post('/rooms', auth_1.authenticate, async (req, res, next) => {
     try {
-        const { name, startupId, participants } = req.body;
+        const { name, startupId } = req.body;
         res.json({
             success: true,
             message: 'Room creation coming soon!',

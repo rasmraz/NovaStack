@@ -137,9 +137,7 @@ const userSchema = new Schema<IUser>({
   timestamps: true
 });
 
-// Index for search optimization
-userSchema.index({ email: 1 });
-userSchema.index({ username: 1 });
+// Index for search optimization (email and username already indexed via unique: true)
 userSchema.index({ skills: 1 });
 userSchema.index({ interests: 1 });
 userSchema.index({ reputationScore: -1 });

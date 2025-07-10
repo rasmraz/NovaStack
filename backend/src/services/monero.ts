@@ -176,7 +176,7 @@ export class MoneroWalletService {
         address
       });
       return result.valid;
-    } catch (error) {
+    } catch {
       return false;
     }
   }
