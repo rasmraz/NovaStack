@@ -1,6 +1,5 @@
 import express from 'express';
 import { authenticate, AuthRequest } from '../middleware/auth';
-import { createError } from '../middleware/errorHandler';
 
 const router = express.Router();
 
@@ -22,7 +21,7 @@ router.get('/rooms', authenticate, async (req: AuthRequest, res, next) => {
 
 router.post('/rooms', authenticate, async (req: AuthRequest, res, next) => {
   try {
-    const { name, startupId, participants } = req.body;
+    const { name, startupId } = req.body;
     
     res.json({
       success: true,

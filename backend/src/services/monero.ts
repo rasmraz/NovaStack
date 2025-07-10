@@ -1,4 +1,5 @@
 import axios from 'axios';
+import crypto from 'crypto';
 import { logger } from '../utils/logger';
 
 interface MoneroWalletConfig {
@@ -176,7 +177,7 @@ export class MoneroWalletService {
         address
       });
       return result.valid;
-    } catch (error) {
+    } catch {
       return false;
     }
   }
@@ -230,7 +231,7 @@ export class MoneroWalletService {
 
   private generatePaymentId(startupId: string): string {
     // Generate a 16-character hex payment ID based on startup ID
-    const hash = require('crypto').createHash('sha256').update(startupId).digest('hex');
+    const hash = crypto.createHash('sha256').update(startupId).digest('hex');
     return hash.substring(0, 16);
   }
 

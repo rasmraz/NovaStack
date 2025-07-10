@@ -53,7 +53,7 @@ export default function LoginPage() {
       } else {
         setError(data.message || 'Login failed');
       }
-    } catch (err) {
+    } catch {
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);
@@ -172,7 +172,7 @@ export default function LoginPage() {
 
           <div className="text-center">
             <p className="text-sm text-gray-300">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link href="/register" className="font-medium text-purple-400 hover:text-purple-300">
                 Create one now
               </Link>

@@ -126,7 +126,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     
     try {
       event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    } catch (err) {
+    } catch {
       throw createError('Webhook signature verification failed', 400);
     }
     
