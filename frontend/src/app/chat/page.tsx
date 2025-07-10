@@ -79,9 +79,10 @@ export default function ChatPage() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const loadMessages = async (roomId: string) => {
     try {
-      // Mock messages - in real implementation, this would load from Matrix
+      // Mock messages - in real implementation, this would load from Matrix using roomId
       const mockMessages: Message[] = [
         {
           id: '1',

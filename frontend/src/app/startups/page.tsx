@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
-import { Rocket, Search, Filter, Heart, Eye, TrendingUp, Users } from 'lucide-react';
+import { Rocket, Search, Heart, Eye, TrendingUp } from 'lucide-react';
 
 interface Startup {
   id: string;
@@ -46,15 +46,29 @@ export default function StartupsPage() {
     }
   };
 
-  const filteredStartups = startups.filter(startup => {
-    const matchesSearch = startup.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         startup.tagline.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         startup.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesIndustry = !selectedIndustry || startup.industry === selectedIndustry;
-    const matchesStage = !selectedStage || startup.stage === selectedStage;
-    
-    return matchesSearch && matchesIndustry && matchesStage;
-  });
+  const filteredStartups = useMemo(() => {
+    return startups.filter(startup => {
+      const matchesSearch = startup.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           startup.tagline.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           startup.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesIndustry = !selectedIndustry || startup.industry === selectedIndustry;
+      const matchesStage = !selectedStage || startup.stage === selectedStage;
+      
+      return matchesSearch && matchesIndustry && matchesStage;
+    });
+  }, [startups, searchTerm, selectedIndustry, selectedStage]);
+
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  }, []);
+
+  const handleIndustryChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedIndustry(e.target.value);
+  }, []);
+
+  const handleStageChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStage(e.target.value);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
@@ -97,7 +111,7 @@ export default function StartupsPage() {
                   placeholder="Search startups..."
                   className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={handleSearchChange}
                 />
               </div>
             </div>
@@ -105,7 +119,7 @@ export default function StartupsPage() {
               <select
                 className="w-full py-3 px-4 bg-gray-800/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 value={selectedIndustry}
-                onChange={(e) => setSelectedIndustry(e.target.value)}
+                onChange={handleIndustryChange}
               >
                 <option value="">All Industries</option>
                 {industries.map(industry => (
@@ -117,7 +131,7 @@ export default function StartupsPage() {
               <select
                 className="w-full py-3 px-4 bg-gray-800/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 value={selectedStage}
-                onChange={(e) => setSelectedStage(e.target.value)}
+                onChange={handleStageChange}
               >
                 <option value="">All Stages</option>
                 {stages.map(stage => (

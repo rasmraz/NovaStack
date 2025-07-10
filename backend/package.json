@@ -2,6 +2,7 @@
   "name": "novastack-backend",
   "version": "1.0.0",
   "description": "NovaStack Backend - Revolutionary Startup Collaboration Platform",
+  "type": "module",
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",
@@ -37,7 +38,7 @@
     "socket.io": "^4.8.1",
     "stripe": "^18.3.0",
     "winston": "^3.17.0",
-    "axios": "^1.6.0"
+    "axios": "^1.10.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -50,6 +51,9 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^24.0.12",
     "@types/supertest": "^6.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
     "jest": "^30.0.4",
     "mongodb-memory-server": "^10.1.4",
     "nodemon": "^3.1.10",

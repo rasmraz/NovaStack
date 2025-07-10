@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { MessageSquare, Users, TrendingUp, Clock, Pin, ExternalLink, Search, Filter } from 'lucide-react';
+import { MessageSquare, Users, TrendingUp, Clock, Pin, ExternalLink, Search } from 'lucide-react';
 
 interface ForumPost {
   id: string;

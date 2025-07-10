@@ -13,7 +13,6 @@ import {
   Settings,
   Bell,
   Search,
-  BarChart3,
   Calendar,
   MessageSquare,
   Video,
@@ -102,7 +101,7 @@ export default function DashboardPage() {
             Welcome back, {user?.firstName}! 👋
           </h1>
           <p className="text-gray-300">
-            Ready to build the future? Here's what's happening in your startup ecosystem.
+            Ready to build the future? Here&apos;s what&apos;s happening in your startup ecosystem.
           </p>
         </div>
 
@@ -227,7 +226,7 @@ export default function DashboardPage() {
                     <Heart className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <p className="text-white text-sm">Sarah liked your startup "TechVenture AI"</p>
+                    <p className="text-white text-sm">Sarah liked your startup &quot;TechVenture AI&quot;</p>
                     <p className="text-gray-400 text-xs">2 hours ago</p>
                   </div>
                 </div>

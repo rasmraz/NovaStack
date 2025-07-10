@@ -43,7 +43,7 @@ export default function Home() {
             Together
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            The world's premier platform for startup collaboration. Connect with co-founders, 
+            The world&apos;s premier platform for startup collaboration. Connect with co-founders, 
             investors, and innovators to build the next generation of world-changing companies.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -82,7 +82,7 @@ export default function Home() {
             <TrendingUp className="h-12 w-12 text-green-400 mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">Investment Tools</h3>
             <p className="text-gray-300">
-              Connect with investors, manage funding rounds, and track your startup's financial progress.
+              Connect with investors, manage funding rounds, and track your startup&apos;s financial progress.
             </p>
           </div>
 
