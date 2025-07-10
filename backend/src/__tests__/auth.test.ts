@@ -2,10 +2,12 @@ import request from 'supertest';
 import express from 'express';
 import authRoutes from '../routes/auth';
 import User from '../models/User';
+import { errorHandler } from '../middleware/errorHandler';
 
 const app = express();
 app.use(express.json());
 app.use('/api/auth', authRoutes);
+app.use(errorHandler);
 
 describe('Authentication Routes', () => {
   describe('POST /api/auth/register', () => {
