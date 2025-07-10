@@ -15,7 +15,10 @@ import {
   Search,
   BarChart3,
   Calendar,
-  MessageSquare
+  MessageSquare,
+  Video,
+  MessageCircle,
+  Globe
 } from 'lucide-react';
 
 interface User {
@@ -260,6 +263,18 @@ export default function DashboardPage() {
                   <Plus className="h-4 w-4" />
                   <span>Create Startup</span>
                 </button>
+                <Link href="/chat" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg flex items-center space-x-2 transition-colors">
+                  <MessageCircle className="h-4 w-4" />
+                  <span>Join Chat</span>
+                </Link>
+                <Link href="/forum" className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-4 rounded-lg flex items-center space-x-2 transition-colors">
+                  <Globe className="h-4 w-4" />
+                  <span>Browse Forum</span>
+                </Link>
+                <Link href="/video" className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg flex items-center space-x-2 transition-colors">
+                  <Video className="h-4 w-4" />
+                  <span>Start Meeting</span>
+                </Link>
                 <button className="w-full bg-gray-700 hover:bg-gray-600 text-white py-3 px-4 rounded-lg flex items-center space-x-2 transition-colors">
                   <Search className="h-4 w-4" />
                   <span>Find Co-founders</span>
@@ -267,10 +282,6 @@ export default function DashboardPage() {
                 <button className="w-full bg-gray-700 hover:bg-gray-600 text-white py-3 px-4 rounded-lg flex items-center space-x-2 transition-colors">
                   <DollarSign className="h-4 w-4" />
                   <span>Browse Investors</span>
-                </button>
-                <button className="w-full bg-gray-700 hover:bg-gray-600 text-white py-3 px-4 rounded-lg flex items-center space-x-2 transition-colors">
-                  <BarChart3 className="h-4 w-4" />
-                  <span>View Analytics</span>
                 </button>
               </div>
             </div>

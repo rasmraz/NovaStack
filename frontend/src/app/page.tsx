@@ -14,11 +14,14 @@ export default function Home() {
           <Link href="/startups" className="text-gray-300 hover:text-white transition-colors">
             Startups
           </Link>
-          <Link href="/investors" className="text-gray-300 hover:text-white transition-colors">
-            Investors
+          <Link href="/chat" className="text-gray-300 hover:text-white transition-colors">
+            Chat
           </Link>
-          <Link href="/about" className="text-gray-300 hover:text-white transition-colors">
-            About
+          <Link href="/forum" className="text-gray-300 hover:text-white transition-colors">
+            Forum
+          </Link>
+          <Link href="/video" className="text-gray-300 hover:text-white transition-colors">
+            Video
           </Link>
           <Link href="/login" className="text-gray-300 hover:text-white transition-colors">
             Login
