@@ -23,3 +23,4 @@ https://nextjs.org/telemetry
  ⚠     Unrecognized key(s) in object: 'swcMinify'
  ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
  ✓ Ready in 1582ms
+   Reload env: .env.local

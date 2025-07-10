@@ -30,6 +30,238 @@ services:
     networks:
       - novastack-network
 
+  # PostgreSQL for Matrix Synapse
+  postgres:
+    image: postgres:15-alpine
+    container_name: novastack-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: synapse
+      POSTGRES_USER: synapse
+      POSTGRES_PASSWORD: synapse_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - novastack-network
+
+  # Matrix Synapse Server for Element Chat
+  synapse:
+    image: matrixdotorg/synapse:latest
+    container_name: novastack-synapse
+    restart: unless-stopped
+    environment:
+      SYNAPSE_SERVER_NAME: novastack.local
+      SYNAPSE_REPORT_STATS: "no"
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: synapse
+      POSTGRES_USER: synapse
+      POSTGRES_PASSWORD: synapse_password
+    ports:
+      - "8008:8008"
+      - "8448:8448"
+    volumes:
+      - synapse_data:/data
+      - ./infrastructure/synapse:/data/config:ro
+    depends_on:
+      - postgres
+    networks:
+      - novastack-network
+
+  # Element Web Client
+  element:
+    image: vectorim/element-web:latest
+    container_name: novastack-element
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./infrastructure/element/config.json:/app/config.json:ro
+    networks:
+      - novastack-network
+
+  # MySQL for Flarum
+  mysql:
+    image: mysql:8.0
+    container_name: novastack-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: flarum
+      MYSQL_USER: flarum
+      MYSQL_PASSWORD: flarum_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - novastack-network
+
+  # Flarum Forum
+  flarum:
+    image: crazymax/flarum:latest
+    container_name: novastack-flarum
+    restart: unless-stopped
+    environment:
+      FLARUM_BASE_URL: http://localhost:8081
+      FLARUM_DB_HOST: mysql
+      FLARUM_DB_NAME: flarum
+      FLARUM_DB_USER: flarum
+      FLARUM_DB_PASSWORD: flarum_password
+      FLARUM_ADMIN_USER: admin
+      FLARUM_ADMIN_PASSWORD: admin123
+      FLARUM_ADMIN_EMAIL: admin@novastack.local
+    ports:
+      - "8081:8000"
+    volumes:
+      - flarum_data:/data
+    depends_on:
+      - mysql
+    networks:
+      - novastack-network
+
+  # Jitsi Meet Video Conferencing
+  jitsi-web:
+    image: jitsi/web:latest
+    container_name: novastack-jitsi-web
+    restart: unless-stopped
+    environment:
+      ENABLE_LETSENCRYPT: 0
+      ENABLE_HTTP_REDIRECT: 0
+      DISABLE_HTTPS: 1
+      JICOFO_AUTH_USER: focus
+      XMPP_DOMAIN: meet.jitsi
+      XMPP_AUTH_DOMAIN: auth.meet.jitsi
+      XMPP_BOSH_URL_BASE: http://prosody:5280
+      XMPP_MUC_DOMAIN: muc.meet.jitsi
+      TZ: UTC
+      JVB_TCP_HARVESTER_DISABLED: true
+    ports:
+      - "8082:80"
+    volumes:
+      - jitsi_web_data:/config
+    depends_on:
+      - prosody
+      - jicofo
+      - jvb
+    networks:
+      - novastack-network
+
+  # Jitsi Prosody XMPP Server
+  prosody:
+    image: jitsi/prosody:latest
+    container_name: novastack-prosody
+    restart: unless-stopped
+    environment:
+      AUTH_TYPE: internal
+      ENABLE_GUESTS: 1
+      XMPP_DOMAIN: meet.jitsi
+      XMPP_AUTH_DOMAIN: auth.meet.jitsi
+      XMPP_MUC_DOMAIN: muc.meet.jitsi
+      XMPP_INTERNAL_MUC_DOMAIN: internal-muc.meet.jitsi
+      JICOFO_COMPONENT_SECRET: jicofo_secret
+      JVB_AUTH_USER: jvb
+      JVB_AUTH_PASSWORD: jvb_password
+      JICOFO_AUTH_USER: focus
+      JICOFO_AUTH_PASSWORD: focus_password
+      TZ: UTC
+    volumes:
+      - prosody_data:/config
+    networks:
+      - novastack-network
+
+  # Jitsi Conference Focus
+  jicofo:
+    image: jitsi/jicofo:latest
+    container_name: novastack-jicofo
+    restart: unless-stopped
+    environment:
+      XMPP_DOMAIN: meet.jitsi
+      XMPP_AUTH_DOMAIN: auth.meet.jitsi
+      XMPP_INTERNAL_MUC_DOMAIN: internal-muc.meet.jitsi
+      XMPP_MUC_DOMAIN: muc.meet.jitsi
+      XMPP_SERVER: prosody
+      JICOFO_COMPONENT_SECRET: jicofo_secret
+      JICOFO_AUTH_USER: focus
+      JICOFO_AUTH_PASSWORD: focus_password
+      TZ: UTC
+    depends_on:
+      - prosody
+    volumes:
+      - jicofo_data:/config
+    networks:
+      - novastack-network
+
+  # Jitsi Video Bridge
+  jvb:
+    image: jitsi/jvb:latest
+    container_name: novastack-jvb
+    restart: unless-stopped
+    environment:
+      XMPP_AUTH_DOMAIN: auth.meet.jitsi
+      XMPP_INTERNAL_MUC_DOMAIN: internal-muc.meet.jitsi
+      XMPP_SERVER: prosody
+      JVB_AUTH_USER: jvb
+      JVB_AUTH_PASSWORD: jvb_password
+      JVB_STUN_SERVERS: stun.l.google.com:19302,stun1.l.google.com:19302,stun2.l.google.com:19302
+      JICOFO_AUTH_USER: focus
+      TZ: UTC
+    ports:
+      - "10000:10000/udp"
+    depends_on:
+      - prosody
+    volumes:
+      - jvb_data:/config
+    networks:
+      - novastack-network
+
+  # Monero Node
+  monero:
+    image: sethsimmons/simple-monerod:latest
+    container_name: novastack-monero
+    restart: unless-stopped
+    command: >
+      --rpc-bind-ip=0.0.0.0
+      --rpc-bind-port=18081
+      --confirm-external-bind
+      --restricted-rpc
+      --enable-dns-blocklist
+      --no-igd
+      --no-zmq
+      --out-peers=32
+      --in-peers=64
+      --add-priority-node=nodes.hashvault.pro:18080
+      --add-priority-node=node.supportxmr.com:18080
+    ports:
+      - "18080:18080"
+      - "18081:18081"
+    volumes:
+      - monero_data:/home/monero/.bitmonero
+    networks:
+      - novastack-network
+
+  # Monero Wallet RPC
+  monero-wallet-rpc:
+    image: sethsimmons/simple-monerod:latest
+    container_name: novastack-monero-wallet
+    restart: unless-stopped
+    command: >
+      monero-wallet-rpc
+      --rpc-bind-ip=0.0.0.0
+      --rpc-bind-port=18083
+      --confirm-external-bind
+      --daemon-address=monero:18081
+      --trusted-daemon
+      --wallet-file=/wallet/novastack
+      --password-file=/wallet/password
+      --rpc-login=novastack:wallet_password
+    ports:
+      - "18083:18083"
+    volumes:
+      - monero_wallet_data:/wallet
+    depends_on:
+      - monero
+    networks:
+      - novastack-network
+
   # Backend API
   backend:
     build:
@@ -44,11 +276,20 @@ services:
       REDIS_URL: redis://redis:6379
       JWT_SECRET: novastack-production-jwt-secret-change-this
       FRONTEND_URL: http://localhost:3000
+      MATRIX_SERVER_URL: http://synapse:8008
+      FLARUM_URL: http://flarum:8000
+      JITSI_URL: http://jitsi-web:80
+      MONERO_WALLET_RPC_URL: http://monero-wallet-rpc:18083
+      MONERO_WALLET_USER: novastack
+      MONERO_WALLET_PASSWORD: wallet_password
     ports:
       - "3001:3001"
     depends_on:
       - mongodb
       - redis
+      - synapse
+      - flarum
+      - monero-wallet-rpc
     volumes:
       - ./backend/logs:/app/logs
     networks:
@@ -64,6 +305,10 @@ services:
     environment:
       NODE_ENV: production
       NEXT_PUBLIC_API_URL: http://localhost:3001
+      NEXT_PUBLIC_MATRIX_URL: http://localhost:8008
+      NEXT_PUBLIC_ELEMENT_URL: http://localhost:8080
+      NEXT_PUBLIC_FLARUM_URL: http://localhost:8081
+      NEXT_PUBLIC_JITSI_URL: http://localhost:8082
     ports:
       - "3000:3000"
     depends_on:
@@ -85,12 +330,25 @@ services:
     depends_on:
       - frontend
       - backend
+      - element
+      - flarum
+      - jitsi-web
     networks:
       - novastack-network
 
 volumes:
   mongodb_data:
   redis_data:
+  postgres_data:
+  synapse_data:
+  mysql_data:
+  flarum_data:
+  jitsi_web_data:
+  prosody_data:
+  jicofo_data:
+  jvb_data:
+  monero_data:
+  monero_wallet_data:
 
 networks:
   novastack-network:
