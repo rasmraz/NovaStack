@@ -23,6 +23,18 @@ export default function Home() {
           <Link href="/video" className="text-gray-300 hover:text-white transition-colors">
             Video
           </Link>
+          <div className="relative group">
+            <button className="text-gray-300 hover:text-white transition-colors">
+              Services
+            </button>
+            <div className="absolute top-full left-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+              <a href="http://localhost:8096" target="_blank" className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700">Jellyfin Media</a>
+              <a href="http://localhost:2283" target="_blank" className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700">Immich Photos</a>
+              <a href="http://localhost:8085" target="_blank" className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700">OpenHands AI</a>
+              <a href="http://localhost:8084" target="_blank" className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700">OpenWebUI</a>
+              <a href="http://localhost:8086" target="_blank" className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700">NextCloud</a>
+            </div>
+          </div>
           <Link href="/login" className="text-gray-300 hover:text-white transition-colors">
             Login
           </Link>

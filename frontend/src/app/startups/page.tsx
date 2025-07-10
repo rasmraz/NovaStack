@@ -66,8 +66,9 @@ export default function StartupsPage() {
         </Link>
         <div className="hidden md:flex items-center space-x-8">
           <Link href="/startups" className="text-white font-medium">Startups</Link>
-          <Link href="/investors" className="text-gray-300 hover:text-white transition-colors">Investors</Link>
-          <Link href="/about" className="text-gray-300 hover:text-white transition-colors">About</Link>
+          <Link href="/chat" className="text-gray-300 hover:text-white transition-colors">Chat</Link>
+          <Link href="/forum" className="text-gray-300 hover:text-white transition-colors">Forum</Link>
+          <Link href="/video" className="text-gray-300 hover:text-white transition-colors">Video</Link>
           <Link href="/login" className="text-gray-300 hover:text-white transition-colors">Login</Link>
           <Link href="/register" className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
             Get Started

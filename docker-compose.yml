@@ -309,10 +309,184 @@ services:
       NEXT_PUBLIC_ELEMENT_URL: http://localhost:8080
       NEXT_PUBLIC_FLARUM_URL: http://localhost:8081
       NEXT_PUBLIC_JITSI_URL: http://localhost:8082
+      NEXT_PUBLIC_JELLYFIN_URL: http://localhost:8096
+      NEXT_PUBLIC_IMMICH_URL: http://localhost:2283
+      NEXT_PUBLIC_OPENHANDS_URL: http://localhost:8085
+      NEXT_PUBLIC_OPENWEBUI_URL: http://localhost:8084
+      NEXT_PUBLIC_NEXTCLOUD_URL: http://localhost:8086
     ports:
       - "3000:3000"
     depends_on:
       - backend
+    networks:
+      - novastack-network
+
+  # Jellyfin Media Server
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: novastack-jellyfin
+    restart: unless-stopped
+    environment:
+      - JELLYFIN_PublishedServerUrl=http://localhost:8096
+    ports:
+      - "8096:8096"
+      - "8920:8920"
+      - "7359:7359/udp"
+      - "1900:1900/udp"
+    volumes:
+      - jellyfin_config:/config
+      - jellyfin_cache:/cache
+      - jellyfin_media:/media
+    networks:
+      - novastack-network
+
+  # Immich Photo Management
+  immich-server:
+    image: ghcr.io/immich-app/immich-server:release
+    container_name: novastack-immich-server
+    restart: unless-stopped
+    environment:
+      DB_HOSTNAME: immich-postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE_NAME: immich
+      REDIS_HOSTNAME: immich-redis
+      UPLOAD_LOCATION: /usr/src/app/upload
+    ports:
+      - "2283:3001"
+    volumes:
+      - immich_upload:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - immich-redis
+      - immich-postgres
+    networks:
+      - novastack-network
+
+  # Immich Machine Learning
+  immich-machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    container_name: novastack-immich-ml
+    restart: unless-stopped
+    environment:
+      DB_HOSTNAME: immich-postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE_NAME: immich
+      REDIS_HOSTNAME: immich-redis
+    volumes:
+      - immich_model_cache:/cache
+    depends_on:
+      - immich-postgres
+      - immich-redis
+    networks:
+      - novastack-network
+
+  # Immich Redis
+  immich-redis:
+    image: redis:6.2-alpine
+    container_name: novastack-immich-redis
+    restart: unless-stopped
+    networks:
+      - novastack-network
+
+  # Immich PostgreSQL
+  immich-postgres:
+    image: postgres:14-alpine
+    container_name: novastack-immich-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: immich
+    volumes:
+      - immich_postgres_data:/var/lib/postgresql/data
+    networks:
+      - novastack-network
+
+  # OpenHands AI Coding Assistant
+  openhands:
+    image: ghcr.io/all-hands-ai/openhands:main
+    container_name: novastack-openhands
+    restart: unless-stopped
+    environment:
+      - SANDBOX_RUNTIME_CONTAINER_IMAGE=ghcr.io/all-hands-ai/runtime:main
+      - WORKSPACE_MOUNT_PATH=/opt/workspace_base
+      - LLM_MODEL=gpt-4o
+      - LLM_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "8085:3000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - openhands_workspace:/opt/workspace_base
+    networks:
+      - novastack-network
+
+  # Open WebUI for LLM Interface
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: novastack-open-webui
+    restart: unless-stopped
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_SECRET_KEY=novastack-webui-secret-key
+    ports:
+      - "8084:8080"
+    volumes:
+      - open_webui_data:/app/backend/data
+    depends_on:
+      - ollama
+    networks:
+      - novastack-network
+
+  # Ollama for Local LLM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: novastack-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - novastack-network
+
+  # NextCloud File Storage and Collaboration
+  nextcloud:
+    image: nextcloud:latest
+    container_name: novastack-nextcloud
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: nextcloud-mysql
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: nextcloud_password
+      NEXTCLOUD_ADMIN_USER: admin
+      NEXTCLOUD_ADMIN_PASSWORD: admin123
+      NEXTCLOUD_TRUSTED_DOMAINS: localhost
+    ports:
+      - "8086:80"
+    volumes:
+      - nextcloud_data:/var/www/html
+      - nextcloud_apps:/var/www/html/custom_apps
+      - nextcloud_config:/var/www/html/config
+    depends_on:
+      - nextcloud-mysql
+    networks:
+      - novastack-network
+
+  # NextCloud MySQL Database
+  nextcloud-mysql:
+    image: mysql:8.0
+    container_name: novastack-nextcloud-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: nextcloud_root_password
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: nextcloud_password
+    volumes:
+      - nextcloud_mysql_data:/var/lib/mysql
     networks:
       - novastack-network
 
@@ -333,6 +507,11 @@ services:
       - element
       - flarum
       - jitsi-web
+      - jellyfin
+      - immich-server
+      - openhands
+      - open-webui
+      - nextcloud
     networks:
       - novastack-network
 
@@ -349,6 +528,19 @@ volumes:
   jvb_data:
   monero_data:
   monero_wallet_data:
+  jellyfin_config:
+  jellyfin_cache:
+  jellyfin_media:
+  immich_upload:
+  immich_model_cache:
+  immich_postgres_data:
+  openhands_workspace:
+  open_webui_data:
+  ollama_data:
+  nextcloud_data:
+  nextcloud_apps:
+  nextcloud_config:
+  nextcloud_mysql_data:
 
 networks:
   novastack-network:
