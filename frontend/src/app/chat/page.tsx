@@ -134,7 +134,7 @@ export default function ChatPage() {
 
   const handleRoomSelect = (room: Room) => {
     setSelectedRoom(room);
-    loadMessages(room.id);
+    loadMessages();
   };
 
   const openElementWeb = () => {
