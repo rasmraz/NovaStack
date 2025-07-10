@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Rocket, Search, Filter, Heart, Eye, TrendingUp, Users } from 'lucide-react';
+import { Rocket, Search, Heart, Eye, TrendingUp } from 'lucide-react';
 
 interface Startup {
   id: string;

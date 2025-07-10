@@ -79,7 +79,7 @@ export default function ChatPage() {
     }
   };
 
-  const loadMessages = async (roomId: string) => {
+  const loadMessages = async () => {
     try {
       // Mock messages - in real implementation, this would load from Matrix
       const mockMessages: Message[] = [

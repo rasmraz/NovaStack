@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { MessageSquare, Users, TrendingUp, Clock, Pin, ExternalLink, Search, Filter } from 'lucide-react';
+import { MessageSquare, Users, TrendingUp, Clock, Pin, ExternalLink, Search } from 'lucide-react';
 
 interface ForumPost {
   id: string;
@@ -92,7 +92,7 @@ export default function ForumPage() {
         {
           id: '2',
           title: 'How to validate your startup idea in 2024',
-          content: 'I\'ve been working on a new approach to startup validation that combines traditional methods with AI...',
+          content: 'I&apos;ve been working on a new approach to startup validation that combines traditional methods with AI...',
           author: 'Sarah Chen',
           category: 'startups',
           replies: 15,
@@ -104,7 +104,7 @@ export default function ForumPage() {
         {
           id: '3',
           title: 'Monero integration for private investments',
-          content: 'Has anyone tried using the new Monero payment feature? I\'m curious about the privacy benefits...',
+          content: 'Has anyone tried using the new Monero payment feature? I&apos;m curious about the privacy benefits...',
           author: 'Alex Rodriguez',
           category: 'funding',
           replies: 8,
@@ -116,7 +116,7 @@ export default function ForumPage() {
         {
           id: '4',
           title: 'Building a decentralized startup ecosystem',
-          content: 'The future of entrepreneurship is decentralized. Let\'s discuss how blockchain and Web3 technologies...',
+          content: 'The future of entrepreneurship is decentralized. Let&apos;s discuss how blockchain and Web3 technologies...',
           author: 'Michael Kim',
           category: 'tech',
           replies: 31,
