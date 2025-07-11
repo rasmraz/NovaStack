@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Rocket, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 function LoginForm() {
   const [formData, setFormData] = useState({
     email: '',
