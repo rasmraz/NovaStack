@@ -1,155 +1,188 @@
-import Link from "next/link";
-import { Rocket, Users, TrendingUp, Zap, Star, ArrowRight } from "lucide-react";
+import Link from 'next/link';
+import { 
+  ChatBubbleLeftRightIcon, 
+  FilmIcon, 
+  ChatBubbleOvalLeftEllipsisIcon,
+  PhotoIcon,
+  CpuChipIcon,
+  CloudIcon,
+  UserGroupIcon,
+  ArrowRightIcon
+} from '@heroicons/react/24/outline';
+
+const features = [
+  {
+    name: 'Real-time Chat',
+    description: 'Secure messaging with end-to-end encryption, group chats, and file sharing.',
+    icon: ChatBubbleLeftRightIcon,
+    href: '/chat',
+    color: 'bg-blue-500',
+  },
+  {
+    name: 'Media Streaming',
+    description: 'Stream movies, TV shows, music, and personal media collections.',
+    icon: FilmIcon,
+    href: '/media',
+    color: 'bg-purple-500',
+  },
+  {
+    name: 'Discussion Forums',
+    description: 'Community discussions, Q&A, and knowledge sharing platform.',
+    icon: ChatBubbleOvalLeftEllipsisIcon,
+    href: '/forum',
+    color: 'bg-green-500',
+  },
+  {
+    name: 'Photo Gallery',
+    description: 'AI-powered photo management with facial recognition and smart albums.',
+    icon: PhotoIcon,
+    href: '/gallery',
+    color: 'bg-pink-500',
+  },
+  {
+    name: 'AI Assistant',
+    description: 'Powerful AI tools for coding, writing, analysis, and automation.',
+    icon: CpuChipIcon,
+    href: '/ai',
+    color: 'bg-orange-500',
+  },
+  {
+    name: 'File Management',
+    description: 'Cloud storage, file sync, and collaborative document editing.',
+    icon: CloudIcon,
+    href: '/files',
+    color: 'bg-cyan-500',
+  },
+  {
+    name: 'Social Network',
+    description: 'Decentralized social platform with privacy-focused features.',
+    icon: UserGroupIcon,
+    href: '/social',
+    color: 'bg-indigo-500',
+  },
+];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      {/* Navigation */}
-      <nav className="flex items-center justify-between p-6 lg:px-8">
-        <div className="flex items-center space-x-2">
-          <Rocket className="h-8 w-8 text-purple-400" />
-          <span className="text-2xl font-bold text-white">NovaStack</span>
+    <div className="bg-white dark:bg-gray-900">
+      {/* Hero section */}
+      <div className="relative isolate px-6 pt-14 lg:px-8">
+        <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
+          <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" />
         </div>
-        <div className="hidden md:flex items-center space-x-8">
-          <Link href="/startups" className="text-gray-300 hover:text-white transition-colors">
-            Startups
-          </Link>
-          <Link href="/chat" className="text-gray-300 hover:text-white transition-colors">
-            Chat
-          </Link>
-          <Link href="/forum" className="text-gray-300 hover:text-white transition-colors">
-            Forum
-          </Link>
-          <Link href="/video" className="text-gray-300 hover:text-white transition-colors">
-            Video
-          </Link>
-          <Link href="/login" className="text-gray-300 hover:text-white transition-colors">
-            Login
-          </Link>
-          <Link href="/register" className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
-            Get Started
-          </Link>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-        <div className="text-center">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            Build the
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-              {" "}Future{" "}
-            </span>
-            Together
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            The world&apos;s premier platform for startup collaboration. Connect with co-founders, 
-            investors, and innovators to build the next generation of world-changing companies.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 flex items-center justify-center">
-              Start Building
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-            <Link href="/startups" className="border border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all">
-              Explore Startups
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Everything You Need to Build a Startup
-          </h2>
-          <p className="text-xl text-gray-300">
-            From idea to IPO, NovaStack provides the tools and community to succeed
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <Users className="h-12 w-12 text-purple-400 mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">Team Collaboration</h3>
-            <p className="text-gray-300">
-              Real-time chat, video calls, and project management tools to keep your team aligned and productive.
+        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
+              Your Complete Digital Platform
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+              Everything you need in one place - chat, media, AI, files, and social features. 
+              Built with privacy, performance, and user experience in mind.
             </p>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <TrendingUp className="h-12 w-12 text-green-400 mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">Investment Tools</h3>
-            <p className="text-gray-300">
-              Connect with investors, manage funding rounds, and track your startup&apos;s financial progress.
-            </p>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <Zap className="h-12 w-12 text-yellow-400 mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">AI-Powered Insights</h3>
-            <p className="text-gray-300">
-              Get smart recommendations for co-founders, investors, and strategic decisions using advanced AI.
-            </p>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <Star className="h-12 w-12 text-blue-400 mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">Pitch Deck Builder</h3>
-            <p className="text-gray-300">
-              Create compelling presentations with our AI-assisted pitch deck builder and templates.
-            </p>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <Rocket className="h-12 w-12 text-red-400 mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">Startup Marketplace</h3>
-            <p className="text-gray-300">
-              Discover innovative startups, join exciting projects, or showcase your own venture to the community.
-            </p>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <Users className="h-12 w-12 text-indigo-400 mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">Global Community</h3>
-            <p className="text-gray-300">
-              Join a worldwide network of entrepreneurs, investors, and innovators building the future together.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-8 md:p-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to Build History?
-          </h2>
-          <p className="text-xl text-purple-100 mb-8">
-            Join thousands of entrepreneurs already building the future on NovaStack
-          </p>
-          <Link href="/register" className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 inline-flex items-center">
-            Get Started Free
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Link>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <footer className="border-t border-white/20 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <Rocket className="h-6 w-6 text-purple-400" />
-              <span className="text-xl font-bold text-white">NovaStack</span>
+            <div className="mt-10 flex items-center justify-center gap-x-6">
+              <Link
+                href="/chat"
+                className="rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              >
+                Get started
+              </Link>
+              <Link href="/about" className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">
+                Learn more <span aria-hidden="true">→</span>
+              </Link>
             </div>
-            <p className="text-gray-400">
-              © 2024 NovaStack. Building the future, one startup at a time.
-            </p>
           </div>
         </div>
-      </footer>
+      </div>
+
+      {/* Features section */}
+      <div className="py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:text-center">
+            <h2 className="text-base font-semibold leading-7 text-blue-600 dark:text-blue-400">
+              Integrated Platform
+            </h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+              Everything you need, unified
+            </p>
+            <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+              No more switching between dozens of apps. Our platform brings together all the tools 
+              you need for communication, productivity, and entertainment.
+            </p>
+          </div>
+          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+              {features.map((feature) => (
+                <Link
+                  key={feature.name}
+                  href={feature.href}
+                  className="group relative flex flex-col p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 hover:shadow-lg transition-all duration-200 hover:scale-105"
+                >
+                  <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900 dark:text-white">
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${feature.color}`}>
+                      <feature.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                    </div>
+                    {feature.name}
+                    <ArrowRightIcon className="h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </dt>
+                  <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600 dark:text-gray-300">
+                    <p className="flex-auto">{feature.description}</p>
+                  </dd>
+                </Link>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats section */}
+      <div className="bg-gray-50 dark:bg-gray-800 py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:max-w-none">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+                Trusted by users worldwide
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                Join thousands of users who have made the switch to our unified platform
+              </p>
+            </div>
+            <dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
+              <div className="flex flex-col bg-white dark:bg-gray-700 p-8">
+                <dt className="text-sm font-semibold leading-6 text-gray-600 dark:text-gray-300">
+                  Active Users
+                </dt>
+                <dd className="order-first text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  10K+
+                </dd>
+              </div>
+              <div className="flex flex-col bg-white dark:bg-gray-700 p-8">
+                <dt className="text-sm font-semibold leading-6 text-gray-600 dark:text-gray-300">
+                  Messages Sent
+                </dt>
+                <dd className="order-first text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  1M+
+                </dd>
+              </div>
+              <div className="flex flex-col bg-white dark:bg-gray-700 p-8">
+                <dt className="text-sm font-semibold leading-6 text-gray-600 dark:text-gray-300">
+                  Files Stored
+                </dt>
+                <dd className="order-first text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  100TB+
+                </dd>
+              </div>
+              <div className="flex flex-col bg-white dark:bg-gray-700 p-8">
+                <dt className="text-sm font-semibold leading-6 text-gray-600 dark:text-gray-300">
+                  Uptime
+                </dt>
+                <dd className="order-first text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  99.9%
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
